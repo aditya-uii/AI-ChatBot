@@ -1,6 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import database from './config/db.js';
+
+
 dotenv.config();
+
 
 
 const app = express();
@@ -11,5 +15,6 @@ app.get('/',(req,res)=>{
 });
 
 app.listen(port,()=>{
+    database();
     console.log('Server is running');
 })
