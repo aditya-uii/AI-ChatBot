@@ -107,6 +107,6 @@ return res.status(404).json({error:'Invalid email or password'});
 
 } catch (error) {
    console.error("Error during login:", error);
-    return res.status(500).json({ message: "Internal server errorrr" });
+    return res.status(500).json({ message: "Internal server error" });
 }
 }
