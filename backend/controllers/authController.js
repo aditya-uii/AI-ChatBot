@@ -26,7 +26,7 @@ export const signUp = async (req, res) => {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Create user (password will be hashed in schema)
+    // Create user 
     const user = await User.create({ name, email, password });
 
     // Generate JWT
@@ -37,7 +37,7 @@ export const signUp = async (req, res) => {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       sameSite: 'strict',
-      secure: false // change to true in production
+      secure: false 
     });
 
     // Response
@@ -79,14 +79,34 @@ try {
 return res.status(404).json({error:'Invalid email or password'});
   }
 
-  const isMatch = await User.comparePassword(password);
+  //comparing password
+  const isMatch = await user.comparePassword(password);
      if (!isMatch) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
-    
 
+    const token = user.generateJWT();
+
+    //sending cookie
+     res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      sameSite: "strict",
+      secure: false
+    });
+
+   return res.status(200).json({
+      message: "Login successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      },
+      token
+    });
 
 } catch (error) {
-  
+   console.error("Error during login:", error);
+    return res.status(500).json({ message: "Internal server error" });
 }
 }
