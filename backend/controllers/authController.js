@@ -110,3 +110,13 @@ return res.status(404).json({error:'Invalid email or password'});
     return res.status(500).json({ message: "Internal server error" });
 }
 }
+
+export const logOut = async (req,res)=>{
+  try {
+    res.clearCookie('token');
+    res.status(201).json({message:'You are logged out successfully '});
+  } catch (error) {
+     console.error("Error logging out:", error);
+    return res.status(500).json({ message: " Logout error" });
+  }
+}
