@@ -16,9 +16,7 @@ app.use(cookieParser());
 // Routes
 app.use('/api/auth', userRoutes); 
 
-app.get('/', (req, res) => {
-    res.send('Backend is working');
-});
+
 
 
 const PORT = process.env.PORT || 8000;
