@@ -27,6 +27,12 @@ try {
         name,email,password
     },{withCredentials:true})
     console.log(response);
+
+     // Clear inputs after success
+    setName("");
+    setEmail("");
+    setPassword("");
+
 } catch (error) {
     console.log(error);
 }
