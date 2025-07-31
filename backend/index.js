@@ -3,11 +3,19 @@ import dotenv from 'dotenv';
 import database from './config/db.js';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js';
+import cors from 'cors';
 
 dotenv.config();
 database(); 
 
 const app = express();
+
+// ✅ CORS setup
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true 
+}));
+
 
 // Middlewares
 app.use(express.json());    
