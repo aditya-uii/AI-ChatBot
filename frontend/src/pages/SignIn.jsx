@@ -16,6 +16,7 @@ const SignIn = () => {
    const[showPassword,setShowPassword] = useState(true);
    const[email,setEmail] = useState('');
    const[password,setPassword] = useState('');
+     const[error,setError] = useState('');
 
    const navigate = useNavigate();
 
@@ -33,6 +34,8 @@ try {
 
 } catch (error) {
     console.log(error);
+    setError(error.response?.data?.error || "Something went wrong");
+
 }
    }
 
@@ -76,10 +79,12 @@ onClick={() => setShowPassword(false)}
 
 </div>
 
+{error.length>0 && <p className='text-red-500'>{error}</p>}
+
 <button 
 className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px]'>Login</button>
 
-<p onClick={()=>{navigate('/signin')}} className='text-white text-[18px] cursor-pointer'>Don't have an account? <span className='text-blue-400 '>Sign Up</span></p>
+<p onClick={()=>{navigate('/signup')}} className='text-white text-[18px] cursor-pointer'>Don't have an account? <span className='text-blue-400 '>Sign Up</span></p>
 </form>
     </div>
   )

@@ -17,11 +17,13 @@ const SignUp = () => {
    const[name,setName] = useState('');
    const[email,setEmail] = useState('');
    const[password,setPassword] = useState('');
+   const[error,setError] = useState('');
 
    const navigate = useNavigate();
 
    const handleSignUp = async (e) =>{
     e.preventDefault();
+     setError("");
 try {
     let response = await axios.post(`${url}/api/auth/signup`,{
         name,email,password
@@ -32,9 +34,11 @@ try {
     setName("");
     setEmail("");
     setPassword("");
+   
 
 } catch (error) {
     console.log(error);
+ setError(error.response?.data?.error || "Something went wrong");
 }
    }
 
@@ -84,6 +88,8 @@ onClick={() => setShowPassword(false)}
 />}
 
 </div>
+
+{error.length>0 && <p className='text-red-500'>{error}</p>}
 
 <button 
 className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px]'>SignUp</button>
