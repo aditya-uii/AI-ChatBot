@@ -4,6 +4,7 @@ import database from './config/db.js';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js';
 import cors from 'cors';
+import getUserRoutes from './routes/getUserRoutes.js'
 
 dotenv.config();
 database(); 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', userRoutes); 
+app.use('/api/user', getUserRoutes); 
 
 
 
