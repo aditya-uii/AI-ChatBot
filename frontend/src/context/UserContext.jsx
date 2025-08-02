@@ -1,9 +1,11 @@
 import React, { createContext } from 'react';
+import { useState } from 'react';
 
 export const userContextData = createContext();
 
 function UserContext({ children }) {
   const url = 'http://localhost:8000';
+  const [userData,setUserdata] = useState(null);
 
   const value = {
     url
@@ -17,3 +19,5 @@ function UserContext({ children }) {
 }
 
 export default UserContext;
+
+//somehting
