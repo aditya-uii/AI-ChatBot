@@ -1,23 +1,26 @@
 import jwt from 'jsonwebtoken';
 
+const isAuth = (req, res, next) => {
+  try {
+    const token = req.cookies.token; // Make sure cookie-parser is used
 
-const isAuth = async (req,res,next) =>{
-    try {
-        const token = req.cookies.token;
-
-        if(!token){
-return res.status(400).json({message:'user token not available'})
-        }
-
-        const verifyToken = await jwt.verify(token,process.env.JWT_SECRET);
-        req.userId = verifyToken.userId;
-
-        next();
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({message:'is auth error'})
+    if (!token) {
+      console.log("❌ No token found in cookies");
+      return res.status(401).json({ message: 'User token not available' });
     }
-}
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log("✅ Decoded token:", decoded);
+
+  req.userId = decoded.userId || decoded._id; // ✅ works with both formats
+
+    next();
+
+  } catch (error) {
+    console.error("❌ Auth error:", error.message);
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+};
 
 export default isAuth;

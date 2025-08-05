@@ -11,7 +11,7 @@ import { userContextData } from '../context/UserContext';
 
 const SignIn = () => {
 
-    const { url } = useContext(userContextData)
+    const { url,userData,setUserdata } = useContext(userContextData)
 
    const[showPassword,setShowPassword] = useState(true);
    const[email,setEmail] = useState('');
@@ -26,13 +26,14 @@ try {
     let response = await axios.post(`${url}/api/auth/login`,{
         email,password
     },{withCredentials:true})
-    console.log(response);
+    setUserdata(response.data);
     
     
     setEmail("");
     setPassword("");
 
 } catch (error) {
+    setUserdata(null);
     console.log(error);
     setError(error.response?.data?.error || "Something went wrong");
 

@@ -11,7 +11,7 @@ import { userContextData } from '../context/UserContext';
 
 const SignUp = () => {
 
-    const { url } = useContext(userContextData)
+    const { url,userData,setUserdata } = useContext(userContextData)
 
    const[showPassword,setShowPassword] = useState(true);
    const[name,setName] = useState('');
@@ -28,7 +28,7 @@ try {
     let response = await axios.post(`${url}/api/auth/signup`,{
         name,email,password
     },{withCredentials:true})
-    console.log(response);
+   setUserdata(response.data);
 
      // Clear inputs after success
     setName("");
@@ -37,6 +37,7 @@ try {
    
 
 } catch (error) {
+    setUserdata(null);
     console.log(error);
  setError(error.response?.data?.error || "Something went wrong");
 }

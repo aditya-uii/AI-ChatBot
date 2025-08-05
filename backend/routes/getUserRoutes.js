@@ -1,10 +1,11 @@
 import express from 'express';
 import { getUserData } from '../controllers/getUserController.js';
+import isAuth from '../middlewares/isAuth.js'
 
 
-const userRouter = express.Router();
+const getUserRouter = express.Router();
 
-userRouter.get('/current',getUserData)
+getUserRouter.get('/current',isAuth,getUserData)
 
 
-export default  userRouter;
+export default  getUserRouter;
