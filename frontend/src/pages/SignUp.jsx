@@ -29,7 +29,7 @@ try {
         name,email,password
     },{withCredentials:true})
    setUserdata(response.data);
-
+navigate('/customize')
      // Clear inputs after success
     setName("");
     setEmail("");

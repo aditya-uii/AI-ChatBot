@@ -27,7 +27,7 @@ try {
         email,password
     },{withCredentials:true})
     setUserdata(response.data);
-    
+    navigate('/')
     
     setEmail("");
     setPassword("");
