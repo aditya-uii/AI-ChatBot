@@ -49,7 +49,7 @@ function Customize () {
 <input type="file" accept='image/*' hidden ref={inputImage} onChange={handleImage}/>
         </div>
 
-<button className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px] mt-2 cursor-pointer'>Next</button>
+<button className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px] mt-2 cursor-pointer'>NEXT</button>
 
     </div>
   )
