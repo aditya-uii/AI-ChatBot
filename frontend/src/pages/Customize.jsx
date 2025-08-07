@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Card from '../components/Cards'
 import image1 from '../assets/image1.png'
 import image2 from '../assets/image2.jpg'
@@ -8,14 +8,19 @@ import image5 from '../assets/image5.png'
 import image6 from '../assets/image6.jpeg'
 import image7 from '../assets/authBg.png'
 import { RiImageAddFill } from "react-icons/ri";
-import { useState } from 'react'
+// import { useState } from 'react'
 import { useRef } from 'react'
+import { userContextData } from '../context/UserContext'
 
 
 function Customize () {
 
-    const [frontendImage,setFrontendImage] = useState(null);
-    const [backendImage,setBackendImage] = useState(null);
+const { handleCurrentUserData,
+  frontendImage,setFrontendImage,
+  backendImage,setBackendImage,
+  selectedImage,setSelectedImage} = useContext(userContextData);
+
+
     const inputImage = useRef(null);
 
     const handleImage =(e)=>{
@@ -49,7 +54,7 @@ function Customize () {
 <input type="file" accept='image/*' hidden ref={inputImage} onChange={handleImage}/>
         </div>
 
-<button className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px] mt-2 cursor-pointer'>NEXT</button>
+<button className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px] mt-2 cursor-pointer'>Next</button>
 
     </div>
   )
