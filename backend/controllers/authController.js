@@ -132,9 +132,13 @@ try {
   }else{
     assistantImage= imageUrl;
   };
-
+const user = User.findByIdAndUpdate(req.userId,{
+  assistantImage,assistantName
+},{new:true}).select('-password');
+res.status(200).json(user);
 
 } catch (error) {
-  
+   console.error("Error:", error);
+    return res.status(500).json({ message: " Some error occurred" });
 }
 }
