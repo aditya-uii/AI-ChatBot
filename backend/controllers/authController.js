@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
 import validator from 'validator';
+import uploadOnCloudianry from "../config/cloudinary.js";
 
 export const signUp = async (req, res) => {
    
@@ -119,4 +120,21 @@ export const logOut = async (req,res)=>{
      console.error("Error logging out:", error);
     return res.status(500).json({ message: " Logout error" });
   }
+}
+
+export const updateAssistant = async (req,res)=>{
+try {
+  const {assistantName,imageUrl} = req.body;
+  let assistantImage;
+
+  if(req.file){
+    assistantImage = await uploadOnCloudianry(req.file.path);
+  }else{
+    assistantImage= imageUrl;
+  };
+
+
+} catch (error) {
+  
+}
 }
