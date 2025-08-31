@@ -11,9 +11,12 @@ import { RiImageAddFill } from "react-icons/ri";
 // import { useState } from 'react'
 import { useRef } from 'react'
 import { userContextData } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 
 function Customize () {
+
+  const navigate = useNavigate();
 
 const { handleCurrentUserData,
   frontendImage,setFrontendImage,
@@ -43,8 +46,13 @@ const { handleCurrentUserData,
 <Card images={image6}/>
 <Card images={image7}/>
 
- <div className='w-[80px] h-[150px] lg:w-[150px] lg:h-[250px] bg-[#030326] border-4  border-[#0000ff6c] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-blue-700 cursor-pointer hover:border-white flex items-center justify-center text-amber-50 text-2xl'
- onClick={()=>inputImage.current.click()}
+ <div className={`w-[80px] h-[150px] lg:w-[150px] lg:h-[250px] bg-[#030326] border-4  border-[#0000ff6c] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-blue-700 cursor-pointer hover:border-white flex items-center justify-center text-amber-50 text-2xl 
+    ${selectedImage== 'input'? 'border-4 border-white shadow-2xl shadow-blue-700':null}
+ `}
+ onClick={()=>{
+  inputImage.current.click()
+  setSelectedImage("input")
+}}
  >
     {!frontendImage && <RiImageAddFill />}
     {frontendImage && <img src={frontendImage} className='h-full object-cover'/>}
@@ -54,7 +62,13 @@ const { handleCurrentUserData,
 <input type="file" accept='image/*' hidden ref={inputImage} onChange={handleImage}/>
         </div>
 
-<button className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px] mt-2 cursor-pointer'>Next</button>
+{selectedImage &&
+<button className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px] mt-2 cursor-pointer' 
+onClick={()=>navigate('/customize2')}
+>Next</button>
+
+}
+
 
     </div>
   )
