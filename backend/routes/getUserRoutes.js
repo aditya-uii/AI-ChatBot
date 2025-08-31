@@ -8,7 +8,19 @@ import upload from '../middlewares/multer.js';
 const getUserRouter = express.Router();
 
 getUserRouter.get('/current',isAuth,getUserData);
-getUserRouter.post('/updateAssistant',isAuth,upload.single('assistantImage'),updateAssistant);
+getUserRouter.post(
+  '/update',
+  isAuth,
+  upload.single('assistantImage'),
+  (req, res, next) => {
+    console.log("✅ /update route hit");
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
+    next(); // don't forget this, otherwise request will hang
+  },
+  updateAssistant
+);
+
 
 
 export default  getUserRouter;

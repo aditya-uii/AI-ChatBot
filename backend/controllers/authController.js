@@ -126,13 +126,18 @@ export const updateAssistant = async (req,res)=>{
 try {
   const {assistantName,imageUrl} = req.body;
   let assistantImage;
+  console.log('hit the request');
+     console.log("Body:", req.body);
+    console.log("File:", req.file);
 
   if(req.file){
     assistantImage = await uploadOnCloudianry(req.file.path);
   }else{
     assistantImage= imageUrl;
   };
-const user = User.findByIdAndUpdate(req.userId,{
+
+
+const user =await User.findByIdAndUpdate(req.userId,{
   assistantImage,assistantName
 },{new:true}).select('-password');
 res.status(200).json(user);
