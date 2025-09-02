@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import User from "../models/userModel.js";
 import validator from 'validator';
 import uploadOnCloudianry from "../config/cloudinary.js";
+import geminiResponse from "../gemini.js";
+import moment from "moment/moment.js";
 
 export const signUp = async (req, res) => {
    
@@ -146,4 +148,24 @@ res.status(200).json(user);
    console.error("Error:", error);
     return res.status(500).json({ message: " Some error occurred" });
 }
+}
+
+export const askToAssistant =  async (req,res) =>{
+  try {
+    const {command} =req.body;
+    const user = await User.findById(req.userId);
+    const userName = user.name;
+    // const assistantImage = user.assistantImage;
+    const assistantName = user.assistantName;
+    const result = await geminiResponse(command,userName,assistantName);
+    const jsonMatch = result.match(/{[\s\S]*}/);
+    if(!jsonMatch){
+      return res.status(400).json({response:"sorry,I can't understand"})
+    }
+    const gemResult = JSON.parse(jsonMatch[0]);
+    const type = gemResult.type;
+    
+  } catch (error) {
+    
+  }
 }
