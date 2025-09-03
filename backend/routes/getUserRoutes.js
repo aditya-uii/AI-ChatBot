@@ -1,7 +1,7 @@
 import express from 'express';
 import { getUserData } from '../controllers/getUserController.js';
 import isAuth from '../middlewares/isAuth.js'
-import { updateAssistant } from '../controllers/authController.js';
+import { askToAssistant, updateAssistant } from '../controllers/authController.js';
 import upload from '../middlewares/multer.js';
 
 
@@ -16,10 +16,12 @@ getUserRouter.post(
     console.log("✅ /update route hit");
     console.log("Body:", req.body);
     console.log("File:", req.file);
-    next(); // don't forget this, otherwise request will hang
+    next(); 
   },
   updateAssistant
 );
+
+getUserRouter.post('/asktoassistant',isAuth,askToAssistant);
 
 
 

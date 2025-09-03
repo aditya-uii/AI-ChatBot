@@ -4,6 +4,7 @@ import validator from 'validator';
 import uploadOnCloudianry from "../config/cloudinary.js";
 import geminiResponse from "../gemini.js";
 import moment from "moment/moment.js";
+import { response } from "express";
 
 export const signUp = async (req, res) => {
    
@@ -164,8 +165,54 @@ export const askToAssistant =  async (req,res) =>{
     }
     const gemResult = JSON.parse(jsonMatch[0]);
     const type = gemResult.type;
-    
+
+    switch(type){
+      case 'get-date':
+        return res.json({
+          type,
+          userInput:gemResult.userInput,
+          response:`current date is ${moment().format(("YYYY-MM-DD"))}`
+        });
+
+        case 'get-time':
+            return res.json({
+          type,
+          userInput:gemResult.userInput,
+          response:`current time is ${moment().format(("hh-mm-A"))}`
+        });
+
+        case 'get-month':
+          return res.json({
+          type,
+          userInput:gemResult.userInput,
+          response:`current month is ${moment().format(("MMMM"))}`
+        });
+
+        case 'get-day':
+            return res.json({
+          type,
+          userInput:gemResult.userInput,
+          response:`current day is ${moment().format(("dddd"))}`
+        });
+
+         case 'google_search':
+  case 'youtube_search':
+  case 'youtube_play':
+  case 'general':
+  case 'calculator_open':
+  case 'instagram_open':
+  case 'facebook_open':
+  case 'weather-show':
+    return res.json({
+      type,
+      userInput: gemResult.userInput,
+      response: gemResult.response
+    });
+
+    default:
+      return res.status(400).json({response: 'I did not understand that command'});
+    }
   } catch (error) {
-    
+      return res.status(400).json({response: 'assistant ask error'});
   }
 }
