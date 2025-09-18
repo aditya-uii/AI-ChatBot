@@ -158,7 +158,7 @@ export const askToAssistant =  async (req,res) =>{
     const userName = user.name;
     // const assistantImage = user.assistantImage;
     const assistantName = user.assistantName;
-    const result = await geminiResponse(command,userName,assistantName);
+    const result = await geminiResponse(command,assistantName,userName);
     const jsonMatch = result.match(/{[\s\S]*}/);
     if(!jsonMatch){
       return res.status(400).json({response:"sorry,I can't understand"})

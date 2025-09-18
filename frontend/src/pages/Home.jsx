@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { userContextData } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
+
 const Home = () => {
   const navigate = useNavigate();
 
-  const {userData,url,setUserdata} =useContext(userContextData);
+  const {userData,url,setUserdata,geminiResponse} =useContext(userContextData);
 
   const handleLogout = async ()=>{
     try {
@@ -18,6 +19,22 @@ const Home = () => {
       console.log(error);
     }
   }
+
+  useEffect(()=>{
+    const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    const recognition = new speechRecognition();
+    recognition.continuous = true,
+    recognition.lang = 'en-US'
+
+    recognition.onresult=async (e)=>{
+      const transcript = e.results[e.results.length-1][0].transcript.trim(); 
+      if(transcript.toLowerCase().includes(userData.assistantName.toLowerCase())){
+ const data = await geminiResponse(transcript);
+ console.log(data);
+      }
+    }
+    recognition.start();
+  },[]);
 
   return (
     <div className='w-full h-[100vh] bg-gradient-to-t from-[black] to-[#02023d] flex justify-center items-center flex-col gap-5'>
