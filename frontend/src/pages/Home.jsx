@@ -1,60 +1,139 @@
 import React, { useContext, useEffect } from 'react'
 import { userContextData } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
-
+import axios from 'axios'
 
 const Home = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const { userData, url, setUserdata, geminiResponse } = useContext(userContextData)
 
-  const {userData,url,setUserdata,geminiResponse} =useContext(userContextData);
-
-  const handleLogout = async ()=>{
+  // ---- LOGOUT HANDLER ----
+  const handleLogout = async () => {
     try {
-      const response = axios.get(`${url}/api/auth/logout`,{withCredentials:true});
-      navigate('/signup');
-      setUserdata(null);
+      await axios.get(`${url}/api/auth/logout`, { withCredentials: true })
+      setUserdata(null)
+      navigate('/signup')
     } catch (error) {
-      setUserdata(null);
-      console.log(error);
+      console.error(error)
+      setUserdata(null)
     }
   }
 
-  useEffect(()=>{
-    const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-    const recognition = new speechRecognition();
-    recognition.continuous = true,
+  // ---- SPEAK FUNCTION ----
+  const speak = (text) => {
+    if (!text) return
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'en-US'
+    window.speechSynthesis.speak(utterance)
+  }
+
+
+  const handleCommand = (data) => {
+  const { type, userInput, response } = data;
+
+  // Speak the assistant's response
+  speak(response);
+
+  if (type === 'google-search') {
+    const query = encodeURIComponent(userInput);
+    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+  }
+
+  if (type === 'calculator-open') {
+    window.open('https://www.google.com/search?q=calculator', '_blank');
+  }
+
+  if (type === 'instagram-open') {
+    window.open('https://www.instagram.com', '_blank');
+  }
+
+  if (type === 'facebook-open') {
+    window.open('https://www.facebook.com', '_blank');
+  }
+
+  if (type === 'weather-show') {
+    const query = encodeURIComponent(userInput);
+    window.open(`https://www.google.com/search?q=weather+${query}`, '_blank');
+  }
+
+  if (type === 'youtube-search') {
+    const query = encodeURIComponent(userInput);
+    window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+  }
+
+  if (type === 'youtube-play') {
+    const query = encodeURIComponent(userInput);
+    window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+  }
+
+};
+
+  
+  // ---- SPEECH RECOGNITION ----
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SpeechRecognition) {
+      console.error('Speech Recognition not supported')
+      return
+    }
+
+    const recognition = new SpeechRecognition()
+    recognition.continuous = true
     recognition.lang = 'en-US'
 
-    recognition.onresult=async (e)=>{
-      const transcript = e.results[e.results.length-1][0].transcript.trim(); 
-      if(transcript.toLowerCase().includes(userData.assistantName.toLowerCase())){
- const data = await geminiResponse(transcript);
- console.log(data);
+    recognition.onresult = async (e) => {
+      const transcript = e.results[e.results.length - 1][0].transcript.trim()
+      console.log('Heard:', transcript)
+
+      if (
+        transcript.toLowerCase().includes(userData.assistantName.toLowerCase())
+      ) {
+        try {
+          const data = await geminiResponse(transcript)
+       handleCommand(data);
+        } catch (err) {
+          console.error('Gemini error:', err)
+        }
       }
     }
-    recognition.start();
-  },[]);
+
+    recognition.onerror = (err) => console.error('Recognition error:', err)
+
+    recognition.start()
+
+    return () => {
+      recognition.stop()
+    }
+  }, [userData, geminiResponse])
 
   return (
     <div className='w-full h-[100vh] bg-gradient-to-t from-[black] to-[#02023d] flex justify-center items-center flex-col gap-5'>
 
-<button 
-className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px] absolute top-[30px] right-[20px] cursor-pointer'
-onClick={handleLogout}
->LogOut</button>
+      <button
+        className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold text-[19px] absolute top-[30px] right-[20px] cursor-pointer'
+        onClick={handleLogout}
+      >
+        LogOut
+      </button>
 
-<button 
-className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold  text-[19px]  absolute top-[100px] right-[20px] p-[10px] cursor-pointer'
-onClick={()=>{
-  navigate('/customize')
-}}
->Customize assistant</button>
+      <button
+        className='min-w-[150px] h-[60px] bg-white rounded-full text-black font-semibold text-[19px] absolute top-[100px] right-[20px] p-[10px] cursor-pointer'
+        onClick={() => navigate('/customize')}
+      >
+        Customize assistant
+      </button>
 
-<div className='w-[300px] h-[400px] flex justify-center items-center overflow-hidden rounded-4xl'>
- <img src={userData?.assistantImage} alt=""  className='h-full object-cover '/>
-</div>
-<h1 className='text-white text-[18px] font-semibold'>Hi I'm {userData?.assistantName}</h1>
+      <div className='w-[300px] h-[400px] flex justify-center items-center overflow-hidden rounded-4xl'>
+        <img
+          src={userData?.assistantImage}
+          alt=""
+          className='h-full object-cover'
+        />
+      </div>
+
+      <h1 className='text-white text-[18px] font-semibold'>
+        Hi I'm {userData?.assistantName}
+      </h1>
     </div>
   )
 }
