@@ -1,11 +1,14 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { userContextData } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const Home = () => {
   const navigate = useNavigate()
-  const { userData, url, setUserdata, geminiResponse } = useContext(userContextData)
+  const { userData, url, setUserdata, geminiResponse } = useContext(userContextData);
+  const [listening.setIsListening] = useState();
+  const isSpeakingRef = useRef(false);
+  const recognitionRef = useRef(null);
 
   // ---- LOGOUT HANDLER ----
   const handleLogout = async () => {
