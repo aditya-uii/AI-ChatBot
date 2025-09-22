@@ -5,7 +5,7 @@ import axios from 'axios';
 export const userContextData = createContext();
 
 function UserContext({ children }) {
-  const url = 'http://localhost:8000';
+  const url = 'https://ai-chatbot-backend-zc90.onrender.com';
   const [userData,setUserdata] = useState(null);
       const [frontendImage,setFrontendImage] = useState(null);
       const [backendImage,setBackendImage] = useState(null);
