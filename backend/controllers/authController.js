@@ -40,8 +40,8 @@ export const signUp = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      sameSite: 'strict',
-      secure: false 
+      sameSite: 'None',
+      secure: true
     });
 
     // Response
@@ -95,8 +95,8 @@ return res.status(404).json({error:'Invalid email or password'});
      res.cookie("token", token, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      sameSite: "strict",
-      secure: false
+     sameSite: 'None',
+      secure: true
     });
 
    return res.status(200).json({
