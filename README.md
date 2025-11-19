@@ -21,4 +21,36 @@ AI-ChatBot enables users to type prompts, send them to an AI API and receive res
 ### 1. Clone the repository  
 ```bash  
 git clone https://github.com/aditya-uii/AI-ChatBot.git  
-cd AI-ChatBot  
+cd AI-ChatBot
+
+2. Install dependencies & configure environment
+npm install
+
+Create a .env file at the root, and add:
+VITE_API_KEY=your_api_key_here
+
+3. Run the development server
+npm run dev
+
+4. Build for production
+npm run build
+
+5. Preview the production build
+npm run preview
+
+Project Structure
+src/
+  components/   # reusable UI parts (ChatBox, Message, Input)
+  App.jsx
+  main.jsx
+.env
+package.json
+vite.config.js
+
+Contributing
+
+Contributions are welcome!
+Fork the repository
+Create a branch: git checkout -b feature/your-feature
+Commit your changes: git commit -m "Add feature"
+Push and open a pull request
