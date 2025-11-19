@@ -46,11 +46,17 @@ src/
 .env
 package.json
 vite.config.js
+```
 
 Contributing
-
 Contributions are welcome!
 Fork the repository
 Create a branch: git checkout -b feature/your-feature
 Commit your changes: git commit -m "Add feature"
 Push and open a pull request
+
+Author
+
+Aditya Kashyap — https://github.com/aditya-uii
+
+
