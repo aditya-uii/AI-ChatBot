@@ -3,7 +3,7 @@
 An interactive AI-powered chatbot built with React. Seamless chat UI, real-time responses, and easy to extend.
 
 ## Overview  
-AI-ChatBot enables users to type prompts, send them to an AI API and receive responses—all in a clean, responsive UI. Ideal for learning modern frontend+API workflows or for building a full-featured assistant app.
+AI-ChatBot enables users to speak prompts, send them to an AI API and receive responses—all in a clean, responsive UI. Ideal for learning modern frontend+API workflows or for building a full-featured assistant app.
 
 ## Key Features  
 - voice interface with user prompt → bot response flow  
